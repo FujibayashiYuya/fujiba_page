@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<link rel="stylesheet" href="css/myhomepage.css">-->
+    <link rel="stylesheet" href="css/new_header.css">
+    <link rel="stylesheet" href="css/page_study.css">
+    <title>Document</title>
+    <script type="text/javascript" src="js/particles.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax
+/2.7.7/MathJax.js?config=TeX-AMS_CHTML"></script>
+    <title>My_Study</title>
+</head>
+<body>
+    <header id="Top">
+        <h1><a href="new_home.html"><img src="images/logo_white.png" alt="logo" class="logo"></a></h1>
+        <nav class="menu">
+            <ul>
+                <li><a href="fbi_introduction.html">紹介</a></li>
+                <li><a href="fbi_works.html">作品</a></li>
+                <li><a href="fbi_study.html">研究</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="title_zoon">
+            <h1>研究テーマ<br>「距離画像から光源推定を行い、仮想物体に陰影付けを行う」</h1>
+        </div>
+        <div class="undertitle">
+            <div class="side_menu">
+                <ul>
+                    <li><a href="fbi_study.html#Top"><span>TOP</span></a></li>
+                    <li><a href="fbi_study.html#1syou">1.はじめに</a></li>
+                    <li><a href="fbi_study.html#2syou">2.手法</a></li>
+                    <li><a href="fbi_study.html#3syou">3.空間認識</a></li>
+                    <li><a href="fbi_study.html#4syou">4.画像取得</a></li>
+                    <li><a href="fbi_study.html#5syou">5.光源推定</a></li>
+                </ul>
+            </div>
+            <div class="main_zoon">
+            <h2 id="1syou">１．はじめに</h2>
+            <p>まず仮想物体を扱うにあたり、私が複合現実（以下MR）や拡張現実（以下AR）<!---
+            -->に興味を持った切っ掛けは、スマートフォンアプリの「ポケモンGo」のAR機能<!---
+            -->で遊んだ時に自分の想像するAR（画像 1.1）とアプリのAR（画像 1.2）が全然違うと思ったからです。</p>
+            <div class="images">
+                <div class="image_set">
+                    <img src="study_images/pokego.jpg">
+                    <p>画像 1.1</p>
+                </div>
+                <div class="image_set">
+                    <img src="study_images/pokegoar_2.jpg">
+                    <p>画像 1.2</p>
+                </div>
+            </div><br>
+            <p>
+            そこでAR・MRにおいて仮想物体（画像中ではポケモン）を現実世界に違和感なく<!--
+            -->表現するための条件について調べたところ、以下の3つの条件を満たすことが重要らしい。</p>
+            <ol class="Bullets">
+                <li>&#9312; 幾何学的整合性（現実に沿った位置関係）</li>
+                <li>&#9313; 光学的整合性　（違和感のない陰影付け）</li>
+                <li>&#9314; 時間的整合性　（仮想世界と現実世界の時間の一致）</li>
+            </ol>
+            <p>
+            この条件をふまえて再度画像1.1を見てみよう。(画像なので③の時間的整合性は省略)</p>
+            <div class="images">
+                <div class="image_set">
+                    <img src="study_images/kaisetu.png">
+                    <p>画像 1.3</p>
+                </div>
+            </div><br>
+            <p>
+            画像1.3のように条件にある①・②の整合性を満たしている。しかし、画像1.2では<!--
+            -->仮想物体は壁にのめり込み、周りの陰影にも適応していないので2つの整合性を満たしていない。AR機能を使ったときの<!----
+            -->違和感はこの条件を満たしていないのが原因だった。</p>
+            <p>そこでこの2つの整合性の内、光学的整合性を保つ手法を研究したいと思い研究し始めました。</p><br>
+            <h2 id="2syou">２．手法</h2>
+            <p>光学的整合性を保つために光源位置の推定を行います。光源の位置は光が強く当たっている現実空間の面の法線方向の領域に存在する（画像1.4）ので<!--
+            -->このことを用いて推定を行います。
+            <div class="images">
+                <div class="image_set">
+                    <img src="study_images/light_estimation.png">
+                    <p>画像 2.1</p>
+                </div>
+            </div><br>
+            よって明るい領域とその法線方向の情報を入手する必要があります。そこで今回は使用機材として「HoloLens」を用います。<!--
+            -->HoloLensには空間認識カメラなどの現実世界の物体を認識するセンサーが搭載されているので<!--
+            -->、これを用いて法線を求める。またHoloLensで写真を撮影することができるので、これで明るい領域の<!--
+            -->情報を入手します。それらを踏まえた全体的な流れは以下のようになります。</p>
+            <ol class="Bullets">
+                <li>&#9312; 空間の認識</li>
+                <li>&#9313; 空間の一部の画像取得</li>
+                <li>&#9314; 光源推定　←現在（2020/4/16）ここまで</li>
+                <li>&#9315; 仮想物体の陰影付け</li>
+            </ol>
+            <p>以降、各流れごとの説明です。</p><br>
+            <h2 id="3syou">３．空間の認識</h2>
+            <p>HoloLensでは「spatial mapping」を有効にすると視線方向の空間をメッシュ化し記録します。<!--
+            -->下の画像3.1は研究室の空間を認識しメッシュ化したものです。実際にはこんなに広い範囲をメッシュ化<!--
+            -->しなくても大丈夫だと思われる。（法線方向を求めたい場所の情報が欲しいだけなので）
+            </p>
+            <div class="images">
+                <div class="image_set">
+                    <img src="study_images/spacecg.png">
+                    <p>画像 3.1</p>
+                </div>
+            </div><br>
+            <h2 id="4syou">４．画像取得</h2>
+            <p>画像の取得はプログラム(C#)を書いてAirTapで行う。プログラム自体は<a href="https://docs.microsoft.com/ja-jp/windows/mixed-reality/locatable-camera-in-unity">Microsoftホームページ</a><!--
+            -->にあるものを参考にした。</p>
+            <p>取得した画像について、処理の流れは以下のようになる。</p>
+            <ol class="Bullets">
+                <li>&#9312; 画像の平滑化</li>
+                <li>&#9313; 画像中の光源の有無について場合分け</li>
+                <li>&#9314; 場合分けにふさわしい光源の推定</li>
+            </ol>
+            <h3>平滑化について</h3>
+            <p>取得した画像は、明るい領域を求める前に平滑化処理を行います。平滑化のために今回は５×５画素に平均化フィルター処理をします。<!--
+            -->５×５の平均化フィルターは、画素値（RGB値）を周囲５×５画素の画素値の平均にするフィルターです。（画像4.1） <!--
+            -->明るい領域は画素値を参考にして求めるので、これを行うことにより床の模様などの急な画素値の変化を小さくし、領域の判定を<!--
+            -->より正確なのもにします。
+            <div class="images">
+                <div class="image_set">
+                    <img src="study_images/heikinkafilter.jpg">
+                    <p>画像 4.1</p>
+                </div>
+            </div><br>どのように変わるか試してみよう。下の画像4.2はフィルター処理前の元画像で、画像4.3はフィルター処理後の画像です。<!--
+            -->わかりにくいですが、若干ぼやけた感じになっています。</p>
+            <div class="images">
+                <div class="image_set">
+                    <img src="study_images/heikatumae.png">
+                    <p>画像 4.2 : 平滑前</p>
+                </div>
+                <div class="image_set">
+                    <img src="study_images/heikatuato.png">
+                    <p>画像 4.3 : 平滑後</p>
+                </div>
+            </div><br>変化の具合をさらに可視化するために、本研究では用いないが各画素を水平方向に微分した（左右の画素の画素値の差を表す）ものを以下に示します。<!--
+            -->簡単に説明すると、ある画素に対して右にある画素の画素値から左にある画素の画素値を引いているので、黒色に近いほど左右の画素値の差が無いことを表しています。<!--
+            -->以下の画像の帽子に付いている毛？（デザイン）を見ると、細かい変化が緩やかになっています。
+            <div class="images">
+                <div class="image_set">
+                    <img src="study_images/syorimae.png">
+                    <p>画像 4.4 : 平滑前</p>
+                </div>
+                <div class="image_set">
+                    <img src="study_images/syoriato.png">
+                    <p>画像 4.5 : 平滑後</p>
+                </div>
+            </div><br>
+            <p>ある一定の面積のある領域（今回は明るい領域）を求めたいので、画像取得後はこの処理を行う。<!--
+            -->また、この処理はCompute Shaderで行う。Compute Shaderで処理を行う利点を以下に示します。</p>
+            <ol class="Bullets">
+                <li>・Graphic Processing Unit (GPU) で計算を行うことができる。（C#で書いたプログラムはCPUで計算されるので、GPUで計算する分だけCPUに余裕ができる。）</li>
+                <li>・CPUからGPU、GPUからCPUへのデータの受け渡しができる。</li>
+                <li>・並列処理に特に優れている。(大量の画素に対して処理が速やか)</li>
+            </ol>
+
+<h3>画像の場合分け</h3>
+<p>平滑化した画像を基に光源推定を行うが、求める理由は「その領域は光源から強く光を受けている場所なので、その法線方向に光源があるだろう」<!--
+-->という推測ができるからです。つまり、そもそも画像内に光源が存在する場合は、法線方向を求める処理を行ってはいけないということになる。よって、<!--
+-->光源が画像内に存在するかしないかの場合分けを先に行います。</p>
+<h4>光源が画像中に存在する場合</h4>
+<p>本研究では機械学習を用いないので、画素値を基に光源の有無の判定を行います。判定方法は、「画素値（RBGの各値）が0.98（最大値を1とした場合）以上ならば光源である」とする。<!--
+-->RGB値すべてが１の場合は白色を表すので、この0.98という値は限りなく白色に近いことを表し、また白色光の判定しかできないということを表します。（本研究ではこの部分は重要ではないのでこの問題は解決せず、条件とする。）<!--
+-->判定結果を視覚化したものを以下の画像に示します。紫色に塗られている領域が光源と判定された領域です。</p>
+<div class="images_bigsize">
+    <div class="image_set_bigsize">
+        <img src="study_images/relight.jpg">
+        <p>画像 4.6 : 空間画像</p>
+    </div>
+    <div class="image_set_bigsize">
+        <img src="study_images/relight0.96.png">
+        <p>画像 4.7 : 光源判定結果</p>
+    </div>
+</div><br>
+
+<h4>画像中に光源が存在しない場合</h4>
+<p>ここからが本題です。画像中に光源がない場合の光源推定<!--
+-->について考えていきます。<a href="fbi_study.html#2syou">２章</a>で説明したように推定するためには画像中の明るい領域を求める必要があります。その領域を求めるために、今回は「K-means法」を用いて<!--
+-->画像中の画素を画素値を参考にクラス分けします。「K-means法」についての詳細は以下。（クリックで表示）
+</p>
+<details class="km_bar">
+    <summary>K-means法について</summary>
+    <p>
+      K-means法は機械学習の一種で、データを複数の（K個の）クラスタに分ける手法です。<!--
+    -->以下図を用いて詳しい手法や説明をしていきます。
+    </p>
+    <p>まずランダムに事前にK個の重心点を決めます。（下の画像では例として３個の重心点を配置しています。）</p>
+    <div class="image_km">
+        <img src="study_images/km_1.png">
+    </div>
+    <p>各データを、最も近い距離にある重心点と同じクラスタに振り分けます。</p>
+    <div class="image_km">
+        <img src="study_images/km_02.png">
+    </div>
+    <p>クラスタの重心点の位置を再度計算し（平均を求める）、位置を更新します。</p>
+    <div class="image_km">
+        <img src="study_images/km_03.png">
+    </div>
+    <p>重心点が更新されたので、再び各データと重心点の距離を計算し、クラスタを振り分けます。</p>
+    <div class="image_km">
+        <img src="study_images/km_04.png">
+    </div>
+    <p>クラスタ内のデータに変化があれば、重心位置も変化するので再度重心点を計算。</p>
+    <div class="image_km">
+        <img src="study_images/km_05.png">
+    </div>
+    <p>このように重心の更新とクラスタの割り振りを繰り返し、重心の位置が変化しなくなったらデータのクラスタリングが終了したことになります。</p>
+    <div class="image_km">
+        <img src="study_images/km_06.png">
+    </div>
+</details>
+<p>条件などの説明の前に、まず画像を画素値を基に「K-means法」でクラスタリングした結果を以下に示します。</p>
+<div class="images_bigsize">
+    <div class="image_set_bigsize">
+        <img src="study_images/kuukan.jpg">
+        <p>画像 4.8 : 空間画像</p>
+    </div>
+    <div class="image_set_bigsize">
+        <img src="study_images/spacekmeans.png">
+        <p>画像 4.9 : クラスタリング結果</p>
+    </div>
+</div><br>
+<p>画像のクラスタリングにあたり、本研究では以下のような条件で行いました。(クリックで詳細)</p>
+<ol class="Bullets">
+    <li>
+        <details><summary>クラスタの数は７つ</summary>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;クラスタ数が多すぎると求める領域が狭くなり、逆に少ないと求める領域が広くなってしまうので調節した結果7つになりました。<!--
+            -->また、画素値が0.98以下で構成されているので（画像中に光源が無い）7だと均等に割り切れるため。</p><br>
+        </details>
+    </li>
+    <li><details><summary>重心位置が一定値を下回れば、クラスタリングを終了する</summary>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;本来であれば重心位置が変化しなくなればクラスタリング終了であるが、プログラムの計算上全く同じ位置になることはきわめて稀で計算量が莫大になるので<!--
+            -->、基準値を決めそれを下回るとクラスタリングを終了にしすることで計算量を調節することができます。
+            </p><br>
+        </details>
+    </li>
+    <li>
+        <details><summary>初期重心位置はランダムではなく、こちらが指定する</summary>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;初期重心位置は本来ならランダムだが、それだと明るさの分類分けが不安定になり、明るい領域が光源推定に用いることができないほど狭かったり、逆に広すぎるということが発生してしまう。<!--        
+            -->また、計算量もそれに伴い大きく変化する。よって、初期重心位置は以下のように均等に割り振ることで、安定して領域を求めることができ、また計算量も安定させることができる。<br><!--
+            -->第１クラス(0.00, 0.00, 0.00)、第２クラス(0.14, 0.14, 0.14)、<br>第３クラス(0.28, 0.28, 0.28)、第４クラス(0.42, 0.42, 0.42)、<br>第５クラス(0.56, 0.56, 0.56)、第６クラス(0.70, 0.70, 0.70)、<br>第７クラス(0.84, 0.84, 0.84)
+            </p><br>
+        </details>
+    </li>
+</ol>
+<p>クラスタリングの結果最も画素値の高い重心にクラスタリングされた領域を「明るい領域」とすることで光源を推定していく。<!--
+-->画像4.9で最も画素値の高い領域を紫色に塗りつぶし、わかりやすくしたのが以下の画像です。</p>
+<div class="images">
+    <div class="image_set">
+        <img src="study_images/bylight.png">
+        <p>画像 4.10</p>
+    </div>
+</div><br>
+<h2 id="5syou">５．光源推定</h2>
+<p class="anounce">※ここからは一部実装がまだできていない部分があるので、提案手法を示します。</p>
+<p>画像から明るい領域を求めることができたので、これを用いて光源推定していきます。<!--
+-->画像中に光源が存在する場合と存在しない場合の２通りに分けて考えていましたが、まずどちらにも必要な「座標変換」について説明します。<!--
+-->座標変換は、画像座標を空間座標に変換することです。４章で求めた「明るい領域」や「光源判定された領域」は全て画像座標（二次元）です。しかし、<!--
+-->MR・ARにおいて仮想物体は３次元で扱うので空間座標（３次元）に変換しないといけません。よって「座標変換」は画像中の光源の有無に関わらず必要になります。<!--
+-->では、その手法について説明します。</p>
+<p>画像座標から空間座標への変換は「透視投影変換」を利用して行う。「透視投影」は遠くのものを小さく、近くのものを大きく投影するもので<!--
+-->図5.1のように空間上の点Pは視点と点Pを結ぶ直線上の点P'に投影されます。つまり、視点から画像上の点の延長線上に現実空間の物体（画像に写ってる物体）が存在することになります。<!--
+-->また、空間座標とカメラ座標は透視投影変換行列によって下の関係式をもちます。よってカメラ座標から空間座標への変換はこれを逆算することで求められます。<a href="fbi_study.html#camera_to_images">(画像座標からカメラ座標への変換は下に詳細あり)</a>
+</p>
+<div class="images">
+    <div class="image_set">
+        <img src="study_images/touei_01.png">
+        <p>画像 5.1</p>
+    </div>
+</div><br>
+    <div class="formula">
+        <div class="Relat">
+            <p>関係式</p>
+            <p>
+                \[
+                \begin{pmatrix}
+                ｘ’ \\
+                ｙ’ \\
+                ｚ’ \\
+                １
+                \end{pmatrix} =M_p
+                \begin{pmatrix}
+                X \\
+                Y \\
+                Z \\
+                １
+                \end{pmatrix}\quad
+                \begin{matrix}
+                カメラ座標...p'(x',y',z')\\
+                空間座標...P(X,Y,Z)\quad\\
+                透視投影変換行列...M_p\\
+                \end{matrix}
+                \]
+            </p>
+        </div>
+        <div class="Trans">
+            <p>透視投影変換行列について</p>
+            <p>
+            \[
+            M_p =
+            \begin{pmatrix}
+            1.51606 & 0.00000 & -0.00154 & 0.00000 \\
+            0.00000 & 2.69217 & -0.00569 & 0.00000 \\
+            0.00000 & 0.00000 & -1.00000 & 0.00000 \\
+            0.00000 & 0.00000 & -1.00000 & 0.00000
+            \end{pmatrix}
+            \]
+            </p>
+        </div>
+    </div>
+<details id="camera_to_images">
+    <summary>画像座標からカメラ座標への変換はこちら</summary>
+    <p>まず、各座標系について説明します。画像座標は下画像のように画像の左上が（0,0）で右下が（画像の幅, 画像の高さ）になります。<!--
+-->（画像左下が（0,0）じゃないので注意）また、カメラ座標は下画像のように画像の幅と高さを-１～１の範囲にしたもの（画像の中心座標が(0,0)でｚ座標は１になります。(今回の場合)</p>
+    <div class="images_bigsize">
+        <div class="image_set_bigsize">
+            <img src="study_images/image_pos.jpg">
+            <p>画像座標</p>
+        </div>
+        <div class="image_set_bigsize">
+            <img src="study_images/camera_pos.jpg">
+            <p>カメラ座標</p>
+        </div>
+    </div><br>
+    <p>変換について説明していきます。画像幅をwidth、画像の高さをheightとして、画像上の任意の点の座標を(i,j)（画像座標で）をカメラ座標に変換するとします。</p>
+    <div class="itoc">
+        <img class="itoc_image" src="study_images/image_to_camera_1.jpg">
+        <p class="itoc_word">まず、画像の幅をwidthで、高さをheightで割ります。</p>
+    </div><br class="clear">
+    <div class="itoc">
+        <img class="itoc_image" src="study_images/image_to_camera_2.jpg">
+        <p class="itoc_word">画像座標のy座標は下が正の方向になっているので、これを上向き正にするためにy座標だけ１引きます。</p>
+    </div><br class="clear">
+    <div class="itoc">
+        <img class="itoc_image" src="study_images/image_to_camera_3.jpg">
+        <p class="itoc_word">カメラ座標の範囲は-１～１で幅が２あるため、幅を合わすために座標の値を全て２倍します。</p>
+    </div><br class="clear">
+    <div class="itoc">
+        <img class="itoc_image" src="study_images/image_to_camera_4.jpg">
+        <p class="itoc_word">最後に、範囲を-１～１にあわすために１引きます。これで変換終了です。</p>
+    </div><br class="clear">
+</details><br>
+<p>次に光源推定について光源がある場合と無い場合で分けて説明していきます。</p><br>
+<h3>光源が画像中に存在する場合</h3>
+<p>画像中に光源が存在すると判定された場合は、その画像座標をそのまま空間座標に変換して光源推定を行います。以下が推定結果です。同じ光源に対して２つの方向から光源推定を行いました。黄色い球体が推定された光源位置になります。</p>
+<div class="images_bigsize">
+    <div class="image_set_bigsize">
+        <img src="result/result11.jpg">
+        <p>画像 5.2 : 空間画像１</p>
+    </div>
+    <div class="image_set_bigsize">
+        <img src="result/result1.jpg">
+        <p>画像 5.3 : 推定結果１</p>
+    </div>
+</div><br>
+<div class="images_bigsize">
+    <div class="image_set_bigsize">
+        <img src="result/result22.jpg">
+        <p>画像 5.4 : 空間画像２</p>
+    </div>
+    <div class="image_set_bigsize">
+        <img src="result/result2.jpg">
+        <p>画像 5.6 : 推定結果２</p>
+    </div>
+</div><br>
+<p>結果に対して考察していきます。<br>図5.3では実際の光源位置に仮想の光源を推定できていますが、図5.6では少し横にずれています。<!--
+-->透視投影変換行列は定数でなので画像座標から現実空間座標への変換の間でずれが生じることはありません。よって画像座標を求める<!--
+-->過程でずれが発生していると考察することができます。画像座標についてずれが発生すると考えられるのは以下の処理中だと思われます。</p><br>
+<ol class="list_parentheses">
+    <li>HoloLens で撮った画像をプログラムに取り込む処理</li>
+    <li>画像座標の範囲を-1 から１の範囲に正規化する処理</li>
+</ol><br>
+<p>
+この (1) について空間画像の図5.2の画像サイズは 1408×792 画素です。しかし、座標変換の処理中の画像サイズは2048×1152画素となっている。<!--
+-->これは実際の画像をプログラムに取り込む際にプログラムが処理しやすいように自動的に変換されたと思われます。この変換により、元画像と縦横比が多少<!--
+-->変わってしまうためずれが生じたと考えることができます。また(2)について画像座標及び画像サイズは int 型から ﬂoat 型へ型変換した後に画像サイズが<!--
+-->−1から1の範囲になるように正規化を行っています。その時に画像中の光源座標を画像サイズで除算を行いますが、その値は多くが無限小数になります。しかし計算結果はﬂoat型<!--
+-->なので表すことができる値には限りがあります。その誤差により座標のずれが発生すると考察することができます。
+</p><br>
+<h3>光源が画像中に存在しない場合</h3>
+<p class="anounce">※ここからは実装がまだできていないので、提案手法を示します。</p>
+<p>光源が存在しないときは、K-means法で処理した画像を用いて以下の通りで仮想物体に陰影付けを行います。</p>
+<ol class="Bullets">
+    <li>&#9312; 画像で明るい領域の座標と法線方向を求める</li>
+    <li>&#9313; 求めた座標と方向から、仮想物体を取り巻く球体に明るさの分布マップを作成</li>
+    <li>&#9314; 球体の分布マップから、仮想物体にライティングを行う</li>
+</ol>
+<p>ここで&#9313;・&#9314;にある「球体」について説明するために「Image Based Lighting」</p>
+</div>
+</div>
+</main>
+</body>
+</html>
