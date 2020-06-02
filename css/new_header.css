@@ -1,0 +1,70 @@
+header{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    z-index: 10;
+}
+
+header img{
+    height: 75px;
+    margin-right: 15px;
+    margin-left: 8px;
+    transform: skew(-15deg);
+}
+
+header ul{
+  list-style-type: none;
+  display: flex;
+  transform: skew(-15deg);
+}
+
+header ul li a{
+display: table-cell;
+width: 75px;
+height: 75px;
+text-align: center;
+text-decoration: none;
+font-size: 20px;
+vertical-align: middle;
+}
+
+
+header ul li a::before,
+header ul li a::after {
+position: absolute;
+z-index: -1;
+display: block;
+content: '';
+}
+header ul li a,
+header ul li a::before,
+header ul li a::after {
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+-webkit-transition: all .3s;
+transition: all .3s;
+}
+
+header ul li a{
+position: relative;
+z-index: 2;
+color: rgb(228, 228, 228);
+overflow: hidden;
+}
+
+header ul li a:hover{
+  color: black;
+}
+
+header ul li a::after{
+top: -100%;
+width: 100%;
+height: 100%;
+}
+
+header ul li a:hover::after{
+top:0;
+background:linear-gradient(to left, rgb(211, 211, 211), rgb(255, 255, 255));
+}

@@ -1,0 +1,134 @@
+#demo01{
+    position: relative;
+    text-align: center;
+    display:block;
+    min-height:100vh;
+    height: 550px;
+    border:none;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body{
+    height: 100%;
+}
+
+.content{
+    position: absolute;
+    width: 80%;
+    height: auto;
+    margin: auto;
+    color: black;
+    left: 0;
+    right: 0;
+    top:0;
+    bottom: 0;
+    display: block;
+    text-align: center;
+    border: solid 5px #4e71d3;
+    margin-top: 8%;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/*--------ページの名前--------------*/
+.toppart{
+    text-align: center;
+    padding: 0.5em 1em;
+    color: #474747;
+    background: rgb(255, 255, 255);/*背景色*/
+    border-left: double 7px #4e71d3;/*左線*/
+    border-right: double 7px #4e71d3;/*右線*/
+    display: inline-block;
+    transform: translateY(-50%);
+    z-index: 2;
+    position: relative;
+}
+
+.toppart p {
+    margin: 0; 
+    padding: 0;
+}
+
+/*--------------画像と説明箇所----------------------*/
+.faceback{
+    max-width: 90%;
+    transition: 0.5s;
+    position: absolute;
+    height: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.imdet{
+    position: relative;
+    z-index:1;
+    box-sizing: border-box;
+    display:block;
+    transform: translateY(110%);
+}
+
+.ima:hover .faceback{
+    transform: rotateZ(90deg);
+}
+.ima:hover .face{
+    width: 50%;
+    opacity: 100%;
+}
+
+.face{
+    border-radius: 50%;
+    position: absolute;
+    width: 30%;
+    opacity: 65%;
+    transition: 1s;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+/*----------------説明箇所--------------------*/
+.detail {
+    position: relative;
+    display: inline-block;/*inline-blockにします*/
+    width: 45%;/*幅も指定できる*/
+    vertical-align: middle;/*縦の表示位置も指定できる*/
+}
+
+.word:before,.word:after{ 
+    content:'';
+    width: 20px;
+    height: 30px;
+    position: absolute;
+    display: inline-block;
+}
+.word:before{
+    border-left: solid 3px #5767bf;
+    border-top: solid 3px #5767bf;
+    top:0;
+    left: 0;
+}
+.word:after{
+    border-right: solid 3px #5767bf;
+    border-bottom: solid 3px #5767bf;
+    bottom:0;
+    right: 0;
+}
+
+/*---------------フッター--------------*/
+
+footer {
+    width:100%;
+    justify-content: center;
+    height: 45px;
+    z-index: 1;
+    display:block;
+    background-color:black;
+}

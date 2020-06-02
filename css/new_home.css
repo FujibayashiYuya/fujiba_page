@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+
+  body{
+      overflow: hidden;
+  }
+  
+  /*------background----------*/
+  .background{
+      display: flex;
+      width:100vw;
+      height:100vh;
+      overflow: hidden;
+  }
+
+  .left_back{
+      position: relative;
+      background-color: black;
+      height: 100vh;
+      flex: 0 0 75%;
+      transform: skew(-15deg) translateX(-25%);
+      background:linear-gradient(to left, #000, rgb(70, 70, 70));
+  }
+
+  .right_back{
+    position: relative;
+    background:linear-gradient(to left, rgb(211, 211, 211), rgb(255, 255, 255));
+    height: 100vh;
+    flex: 0 0 65%;
+    transform: skew(-15deg) translateX(-25%);
+  }
+
+  /*------------screen--------------*/
+  .ima{
+    position: absolute;
+    right: 3%;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 40%;
+    float: right;
+  }
+
+  .faceback{
+    max-width: 100%;
+    transition: 0.5s;
+    position: absolute;
+    height: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.face{
+    border-radius: 50%;
+    position: absolute;
+    width: 40%;
+    opacity: 65%;
+    transition: 1s;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 5px;
+    margin: auto;
+}
+
+.ima:hover .faceback{
+    transform: rotateZ(90deg);
+}
+.ima:hover .face{
+    width: 60%;
+    opacity: 100%;
+}
+/*-------moji--------*/
+.word{
+    position: absolute;
+    left: 5%;
+    top: 70%;
+    margin: auto;
+    color: rgb(255, 255, 255);
+}
+
+.name{
+    position: absolute;
+    left: 5%;
+    top: 120px;
+    margin: auto;
+    font-size: 4em;
+    color: rgb(255, 253, 244);
+}
+

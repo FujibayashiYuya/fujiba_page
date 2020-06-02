@@ -1,0 +1,101 @@
+/*-------------------↓紹介画面用-------------------*/
+  .hobby_set{
+    display: flex;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .mark{
+    text-align: center;
+    width: 20%;
+    margin: 3%;
+    min-width: 80px;
+    display: inline-block;
+  }
+
+  /*位置合わせ*/
+  .circle{
+    position: relative;
+    display: inline-block;
+    width: 94%;
+    height: 94%;
+    padding-bottom: 100%;
+    border-radius: 50%;
+    border: solid 5px rgb(135, 255, 199);
+  }
+
+  .circle img{
+    position: absolute;
+    width :80%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+  
+  /*回転*/
+  .circle img{
+    transition: 1s;
+    transform: rotateY(0deg);
+  }
+  .open:hover img{
+    transform: rotateY( 360deg );
+  }
+  
+  /*文字*/
+  .open p{
+    font-size: 200%;
+    font-family: 'メイリオ', Meiryo,sans-serif;
+    color: black;
+    font-weight: bold;
+    text-align:center;
+    margin-top: -7px;
+  }
+  
+  .open{
+    text-decoration: none;
+    display: block;
+    position: relative;
+  }
+
+  .open p::before{
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -1px;
+      width: 100%;
+      height: 3px;
+      background: rgb(135, 255, 199);
+      transform: scale(0, 1);
+      transition: 0.4s;
+  }
+  .open:hover p::before{
+    transform: scale(1);
+  }
+
+  .detail{
+      z-index: 1;
+  }
+  /*-------------------↑紹介画面用-------------------*/
+
+  #popup_kinniku{
+    display: none;
+    position: relative;
+    text-align: center;
+    background-color: cadetblue;
+  }
+
+  #popup_kendo{
+    display: none;
+    position: relative;
+    text-align: center;
+    background-color: cadetblue;
+  }
+
+  #popup_game{
+    display: none;
+    position: relative;
+    text-align: center;
+    background-color: cadetblue;
+  }

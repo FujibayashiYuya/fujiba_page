@@ -1,0 +1,267 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+
+main{
+  background-color: rgb(209, 209, 209);
+}
+
+.undertitle{
+  display: flex;
+  display: -webkit-flex;
+}
+
+/*---サイドメニュー------*/
+.side_menu{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    width: 10vw;
+    height: 200px;
+    margin-top: 20px;
+    margin-left: 5px;
+}
+
+  .side_menu ul{ 
+  list-style-type: none; 
+  }
+
+  .side_menu li a{
+  position: relative;
+  display: inline-block; 
+  width: 10vw;
+  border-left: 8px solid #313131;
+  border-top: 1px solid #313131;
+  border-right: 1px solid #313131;
+  border-bottom: 1px solid #313131;
+  padding: 3px 10px;
+  margin-bottom: 2px;
+  text-decoration: none;
+  color: rgb(37, 37, 37);
+  font-size: 20px;
+  }
+
+  .side_menu li a::before{
+    content: "";
+    z-index: -1;
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background:linear-gradient(to left, #000, rgb(70, 70, 70));
+    transform-origin: right top;
+    transform: scale(0, 1);
+    transition: transform .5s;
+  }
+
+  .side_menu li a::after{
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: -2;
+    content: "";
+  }
+
+  .side_menu li a:hover{
+    color: white;
+  }
+
+  .side_menu li a:hover::before{
+    transform-origin: left top;
+    transform: scale(1, 1);
+  }
+
+  
+
+/*----------------------*/
+h1{
+    text-align: center;
+    color: white;
+}
+
+.title_zoon{
+  background:linear-gradient(to left, #000, rgb(70, 70, 70));
+  padding-top: 75px;
+  padding-bottom: 50px;
+}
+
+.main_zoon{
+  width: 80vw;
+  margin: 20px auto;
+  background-color: white;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 10px;
+  border: solid 1px rgb(131, 131, 131);
+}
+
+h2{
+    padding: 0.25em 0.5em;/*上下 左右の余白*/
+    color: black;/*文字色*/
+    background: transparent;/*背景透明に*/
+    border-left: solid 7px rgb(70, 70, 70);/*左線*/
+    border-bottom: solid 1px rgb(70, 70, 70);
+    border-top: solid 1px rgb(70, 70, 70);
+    border-right: solid 1px rgb(70, 70, 70);
+    margin-bottom: 10px;
+}
+
+#2syou{
+    padding: 0.25em 0.5em;/*上下 左右の余白*/
+    color: black;/*文字色*/
+    background: transparent;/*背景透明に*/
+    border-left: solid 7px rgb(135, 255, 199);/*左線*/
+    border-bottom: solid 3px rgb(135, 255, 199);
+}
+/*-------------------------章題以下------------------------*/
+/*---------画像について-------------*/
+.images{
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  height: 45vh;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.image_set {
+    display: inline-block;
+    margin-right: 10vh;
+  }
+
+.images img{
+  height: 45vh;
+}
+
+.images_bigsize{
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  height: 45vh;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.image_set_bigsize {
+  display: inline-block;
+  margin-right: 10vh;
+}
+
+.images_bigsize img{
+  height: 45vh;
+  width: 30vw;
+}
+ /*----------箇条書き-----------*/
+.Bullets  {
+    margin-top: 0px;
+    margin-left: 12px;
+    padding: 0;
+    margin-bottom: 0px;
+  }
+
+.Bullets li  {
+    list-style: none;
+    padding-left: 1.3em;
+    text-indent: -1.3em;
+  }
+/*---------式を横並べ------------*/
+
+.formula{
+  display: flex;
+  justify-content: center;
+}
+
+.Relat{
+  margin-right: 20px;
+}
+
+  .anounce{
+    color: black;
+    text-decoration: underline;
+    text-decoration-color: red;
+  }
+  /*--------K-meansバー----------*/
+  .km_bar {
+    border: 1px solid #e4e4e4;
+  }
+  .km_bar:not(:last-child) {
+    margin-bottom: 20px;
+  }
+  
+  .km_bar summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 10px;
+    background: #e4e4e4;
+    color: #242323;
+    font-weight: bold;
+  }
+  
+  .km_bar p {
+    margin: 0;
+    padding: 20px;
+  }
+
+#camera_to_images{
+  width: 93%;
+  border: 1px solid #e4e4e4;
+  margin: auto;
+}
+
+#camera_to_images summary{
+  list-style: none;
+    cursor: pointer;
+    padding: 10px;
+    background: #e4e4e4;
+    color: #242323;
+    font-weight: bold;
+}
+
+.itoc_image{
+  width: 45%;
+  display: inline-block;
+  vertical-align: middle;
+  *zoom: 1; /* for IE6-7 */
+  *display: inline; /* for IE6-7 */
+}
+
+.itoc_word{
+  width: 40%;
+  display: inline-block;
+  vertical-align: middle;
+  width:250px; /* 幅の指定がない場合、改行が必要な幅を超えるとカラム落ちします。 */
+  *zoom: 1; /* for IE6-7 */
+  *display: inline; /* for IE6-7 */
+}
+
+.clear{
+  clear: both;
+}
+
+/*------------箇条書きに（）つける----------------*/
+ol.list_parentheses{
+  padding:0 0 0 2em;
+  margin:0;
+}
+ 
+ol.list_parentheses li{
+  list-style-type:none;
+  list-style-position:inside;
+  counter-increment: cnt;
+}
+ol.list_parentheses li:before{
+  display: marker;
+  content: "(" counter(cnt) ") ";
+}
