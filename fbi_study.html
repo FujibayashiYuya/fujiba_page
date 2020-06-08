@@ -387,7 +387,69 @@
     <li>&#9313; 求めた座標と方向から、仮想物体を取り巻く球体に明るさの分布マップを作成</li>
     <li>&#9314; 球体の分布マップから、仮想物体にライティングを行う</li>
 </ol>
-<p>ここで&#9313;・&#9314;にある「球体」について説明するために「Image Based Lighting」</p>
+<p>ここで&#9313;・&#9314;にある「球体」について説明するために「Image Based Lighting」という手法について説明する。</p>
+<h3>Image Based Lightingについて</h3>
+<p>３Dレンダリングにおける陰影付けにおいて、現実世界の物理法則を忠実に再現する場合は光源の位置から光線を伸ばし、物体などに反射して自分の目（視点）に入ってくる<!--
+-->光線を計算しないといけない。しかし、Image Based Lighting（以下IBL）というレンダリング手法は、周囲の光源情報を持った画像を光源として陰影付けを行う手法である。<!--
+-->以下の画像5.7のように周囲に画像（画像5.7ではHDRIの360度画像を用いている）を配置し、仮想物体の各面の法線方向の明るさを参照するといったものである。<!--
+-->&#9313;・&#9314;の「球体」は、この仮想物体を取り巻く画像の球体のことである。
+</p>
+<div class="images">
+    <div class="image_set">
+        <img src="study_images/IBL.jpg">
+        <p>画像 5.7</p>
+    </div>
+</div><br>
+<p>以下はUnityでIBLを試した例です。若干物体の色が背景画像に近い色になってます。(物体の表面の反射率をもっと上げると画像が鏡のように映されます)</p>
+<div class="images">
+    <div class="image_set">
+        <img src="study_images/Unity/IBL_def.png">
+        <p>デフォルト</p>
+    </div>
+</div><br>
+<div class="images_bigsize">
+    <div class="image_set_bigsize">
+        <img src="study_images/Unity/Tokyo.jpg">
+        <p>参考画像1</p>
+    </div>
+    <div class="image_set_bigsize">
+        <img src="study_images/Unity/IBL_Tokyo.png">
+        <p>IBL結果1</p>
+    </div>
+</div><br>
+<div class="images_bigsize">
+    <div class="image_set_bigsize">
+        <img src="study_images/Unity/Snow.jpg">
+        <p>参考画像2</p>
+    </div>
+    <div class="image_set_bigsize">
+        <img src="study_images/Unity/IBL_Snow.png">
+        <p>IBL結果2</p>
+    </div>
+</div><br>
+<div class="images_bigsize">
+    <div class="image_set_bigsize">
+        <img src="study_images/Unity/Beach.jpg">
+        <p>参考画像3</p>
+    </div>
+    <div class="image_set_bigsize">
+        <img src="study_images/Unity/IBL_Beach.png">
+        <p>IBL結果3</p>
+    </div>
+</div><br>
+<p>ここで本題に戻ります。K-means法から求めた領域の法線方向に光源が存在するとして、球体に光源の分布マップを作ってIBLを行えば、<!--
+-->その場に合ったライティングができるのでは、というのが提案手法です。</p>
+<div class="images_bigsize">
+    <div class="image_set_bigsize">
+        <img src="study_images/images/for_ibl_03.jpg">
+        <p>画像5.8</p>
+    </div>
+    <div class="image_set_bigsize">
+        <img src="study_images/images/ibl_03.jpg">
+        <p>画像5.9</p>
+    </div>
+</div><br>
+<p>ここから先はまだ実装ができていないので、進捗があり次第更新します。</p>
 </div>
 </div>
 </main>
