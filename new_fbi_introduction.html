@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/new_home.css">
+    <link rel="stylesheet" href="css/new_header.css">
+    <link rel="stylesheet" href="css/new_page_introduce.css">
+    <script type="text/javascript" src="js/new_page_introduce.js"></script>
+    <title>My_HomePage</title>
+</head>
+<body>
+    <header>
+        <h1><a href="new_home.html"><img src="images/logo_white.png" alt="logo" class="logo"></a></h1>
+        <nav class="menu">
+            <ul>
+                <li><a href="new_home.html">TOP</a></li>
+                <li><a href="new_fbi_introduction.html">紹介</a></li>
+                <li><a href="fbi_works.html">作品</a></li>
+                <li><a href="fbi_study.html">研究</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <body>
+        <div class="background">
+            <div class="left_back" id="demo01">
+                <ul class="iconset">
+                    <li><a class="icon kintore" onclick="content('kintore')">筋トレ</a></li>
+                    <li><a class="icon kendou" onclick="content('kendo')">剣道</a></li>
+                    <li><a class="icon game" onclick="content('game')">ゲーム</a></li>
+                </ul>
+            </div>
+            <div class="right_back"></div>
+        </div>
+        <div class="intro"><h2>紹介</h2><br><p>趣味などを随時更新していきます。(右下ボタンクリックで表示)</p></div>
+        <div class="detail_set">
+            <div id="kintore" class="detail">
+                <div class="title"><img src="images/logo_kintore.png"><h2>筋トレ</h2><br></div>
+                <p>週に3回ぐらいのペースでやってます。大学院に入ってから部活引退して運動不足気味なので、なんとか今の体型を維持するために始めました。<br><!--
+                -->懸垂バーやダンベルを使って筋トレしてますが、自重の筋トレもよくします。（筋トレグッズで部屋の半分は占領されてる）</p>
+            </div>
+            <div id="kendo" class="detail">
+                <div class="title"><img src="images/logo_kendo.png"><h2>剣道</h2><br></div>
+                <p>中学から大学まで体育会の剣道部に所属していました。中高の時は小さな大会ならちょくちょく入賞したことがあります。<!--
+                -->大学では近畿国立大会で個人2位になりました。（逆に大学ではこれぐらいしかないのでは...笑）<br>10年間やっているので<!--
+                -->できれば続けたいなと思い、今は大学の部活に週１程度でお世話になってます。</p>
+            </div>
+            <div id="game" class="detail">
+                <div class="title"><img src="images/logo_game_cop.png"><h2>ゲーム</h2><br></div>
+                <p>部活していた時は、プライベートでなるべく体を動かしたくなかったので友達とよくゲームしてました。一人では稀にしかしないです。<!--
+                --><br>好きなゲームは、DARK SOULシリーズ・Apex・スマブラ<br>ゲームをやるのも好きですが、見るのも好きです。（特にホラーゲームで絶叫とかしてるのを見るのが好き）</p>
+            </div>
+        </div>
+
+    </body>
+    <script type="text/javascript" src="js/particles.min.js"></script>
+    <script type="text/javascript" src="js/set.js"></script>
+    <footer>
+
+    </footer>
+
+
+</body>
+
+</html>
