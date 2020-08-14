@@ -1,0 +1,33 @@
+---
+layout: default
+title: Blog
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="blog.css">
+</head>
+<body>
+    <header>
+        <h1><a href="new_home.html"><img src="images/logo_white.png" alt="logo" class="logo"></a></h1>
+        <nav class="side_menu">
+            <ul>
+                <li><a href="fbi_introduction.html">紹介</a></li>
+                <li><a href="fbi_works.html">BLOG</a></li>
+                <li><a href="fbi_study.html">研究</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="main">
+        <h1>BLOG</h1>
+        <h2>最新記事</h2>
+        <ul class="articles">
+            {% for post in site.posts %}
+            <li class="article">
+            <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+            <div class="con">{{ post.excerpt }}<!--postの最初の段落--></div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
